@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour {
+
+    Vector3 vec, init;
+    float transfer = 0;
+    float change(Vector3 v1, Vector3 v2)
+    {
+        float ret = (v1.y - v2.y) * (v1.y - v2.y);
+        ret = Mathf.Min(ret, 2.0f);
+        return ret ;// + (v1.z - v2.z) * (v1.z - v2.z);
+    }
+    void Start()
+    {
+        vec = Input.acceleration;
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        Vector3 cur = GameObject.Find("road").transform.position;
+        if (cur.z > -2500)
+        {
+            Vector3 vec2 = Input.acceleration;
+            cur.z -= (change(vec, vec2) * 20);
+        }
+
+        else
+            cur.z = 3000;
+
+        transform.position = cur;
+
+    }
+}
